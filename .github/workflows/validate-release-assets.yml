@@ -1,0 +1,23 @@
+name: Validate Release Assets
+
+on:
+  release:
+    types: [published]
+
+permissions:
+  contents: read
+
+jobs:
+  require-assets:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ensure release has at least one asset
+        run: |
+          set -euo pipefail
+          count="${{ toJson(github.event.release.assets) }}"
+          if [ "$count" = "[]" ]; then
+            echo "Release '${{ github.event.release.tag_name }}' has no assets."
+            echo "Upload at least one binary/checksum asset before publishing."
+            exit 1
+          fi
+          echo "Release '${{ github.event.release.tag_name }}' includes assets."

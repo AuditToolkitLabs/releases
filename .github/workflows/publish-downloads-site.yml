@@ -242,16 +242,31 @@ jobs:
                            and not (f.name.startswith('checksums') and f.suffix == '.txt')],
                           key=lambda f: f.name.lower()
                       )
-                      dl_assets = []
-                      for f in files:
-                          dl_href = f'/downloads/{tool_dir.name}/{vd.name}/{f.name}'
-                          dl_assets.append((f.name, dl_href, human_size(f.stat().st_size), 'Download'))
+                      ext_entries = []
+                      ext_by_name = {}
                       ext_file = vd / 'external-links.json'
                       if ext_file.exists():
-                          for entry in _json.loads(ext_file.read_text(encoding='utf-8')):
-                              size_str = entry.get('size', '')
+                          ext_entries = _json.loads(ext_file.read_text(encoding='utf-8'))
+                          ext_by_name = {entry.get('name'): entry for entry in ext_entries if entry.get('name')}
+
+                      dl_assets = []
+                      for f in files:
+                          if f.name in ext_by_name:
+                              entry = ext_by_name.pop(f.name)
+                              size_str = entry.get('size', '') or human_size(f.stat().st_size)
                               badge = entry.get('badge', 'External')
-                              dl_assets.append((entry['name'], entry['url'], size_str, badge))
+                              dl_assets.append((f.name, entry['url'], size_str, badge))
+                          else:
+                              dl_href = f'/downloads/{tool_dir.name}/{vd.name}/{f.name}'
+                              dl_assets.append((f.name, dl_href, human_size(f.stat().st_size), 'Download'))
+
+                      for entry in ext_entries:
+                          name = entry.get('name')
+                          if not name or name in {f.name for f in files}:
+                              continue
+                          size_str = entry.get('size', '')
+                          badge = entry.get('badge', 'External')
+                          dl_assets.append((name, entry['url'], size_str, badge))
 
                       body_parts = [asset_list(dl_assets)]
 

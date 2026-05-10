@@ -223,7 +223,7 @@ jobs:
                       page_shell(
                           tool_dir.name,
                           f'Available versions for {tool_dir.name}.',
-                          [('Home', '/'), (tool_dir.name, '')],
+                          [('Home', '../'), (tool_dir.name, '')],
                           card_grid(version_cards)
                       ),
                       encoding='utf-8'
@@ -257,7 +257,7 @@ jobs:
                               badge = entry.get('badge', 'External')
                               dl_assets.append((f.name, entry['url'], size_str, badge))
                           else:
-                              dl_href = f'/downloads/{tool_dir.name}/{vd.name}/{f.name}'
+                              dl_href = f'../../downloads/{tool_dir.name}/{vd.name}/{f.name}'
                               dl_assets.append((f.name, dl_href, human_size(f.stat().st_size), 'Download'))
 
                       for entry in ext_entries:
@@ -295,7 +295,7 @@ jobs:
                           page_shell(
                               f'{tool_dir.name} {vd.name}',
                               f'{len(dl_assets)} artifact{"s" if len(dl_assets) != 1 else ""} available for download.',
-                              [('Home', '/'), (tool_dir.name, f'/{tool_dir.name}/'), (vd.name, '')],
+                              [('Home', '../../'), (tool_dir.name, '../'), (vd.name, '')],
                               '\n'.join(body_parts)
                           ),
                           encoding='utf-8'

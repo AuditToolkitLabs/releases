@@ -1,4 +1,5 @@
 # releases
+
 Public release artefacts for AuditToolkit Labs products. Source code is maintained in private repositories.
 
 ## Purpose
@@ -6,37 +7,64 @@ Public release artefacts for AuditToolkit Labs products. Source code is maintain
 This repository is the public distribution point for product release assets.
 
 - Source code remains in private repositories.
-- Built binaries, installers, and checksums are published here as GitHub Release assets.
-- Release tags follow the pattern `<product>/<version>`.
+- Built binaries, installers, and checksums are published through a static downloads catalog.
+- No tags are created in this repository.
 
 ## Public Access Model
 
 - The repository is public so anyone can download published release assets.
 - Private source repositories are not exposed through this repository.
-- Do not upload source bundles unless they are intentionally public.
+- Do not upload source bundles.
 
-## Release Requirements
+## Binary Distribution Method
 
-Every published GitHub Release must include at least one uploaded asset.
+Public downloads are published from the `downloads/files/` folder and deployed as a GitHub Pages site by the workflow in [`.github/workflows/publish-downloads-site.yml`](.github/workflows/publish-downloads-site.yml).
 
-The CI workflow in [`.github/workflows/validate-release-assets.yml`](.github/workflows/validate-release-assets.yml) enforces this rule on `release.published` events and fails if a release has zero assets.
+The generated index page lists all files found in `downloads/files/`.
 
-## Recommended Asset Set
+## Source Protection Controls
 
-For each release, upload:
+The workflow in [`.github/workflows/validate-release-assets.yml`](.github/workflows/validate-release-assets.yml) blocks source-like uploaded Release assets.
 
-- Platform binaries/installers
-- SHA256 checksum file
-- Optional signature or provenance file
+Even with that protection, GitHub generates source archives for tags.
 
-## Verification
+To prevent source archive exposure, this repository follows a strict no-tag policy.
 
-To verify current coverage, check release asset counts via GitHub API:
+## Tag Ruleset Checklist (GitHub UI)
 
-```powershell
-$headers = @{"User-Agent"="audit-toolkit-release-check"}
-$uri = "https://api.github.com/repos/AuditToolkitLabs/releases/releases?per_page=100"
-(Invoke-RestMethod -Uri $uri -Headers $headers) |
-  Select-Object tag_name, @{Name='asset_count';Expression={$_.assets.Count}} |
-  Format-Table -AutoSize
-```
+Create a repository ruleset in GitHub to block tag creation.
+
+1. Open repository settings, then `Rules`, then `Rulesets`.
+2. Create a new ruleset and target `Tags`.
+3. Set tag name pattern to `*`.
+4. Enable rule: `Restrict creations`.
+5. Enable rule: `Restrict updates`.
+6. Enable rule: `Restrict deletions`.
+7. Keep bypass list empty, or limit bypass to one emergency admin role only.
+8. Turn on `Do not allow bypassing the above settings` if your policy allows it.
+9. Save and enable the ruleset.
+
+After enabling, verify by attempting to create a test tag from a non-admin account.
+
+## Publishing Steps
+
+1. Copy binaries, checksums, and signatures into `downloads/files/`.
+2. Commit and push to `main`.
+3. Wait for the Pages deployment workflow to finish.
+4. Validate downloads from the published Pages URL.
+
+## File Requirements
+
+- Include only binaries, installers, checksums, signatures, and provenance files.
+- Exclude source code, build scripts, project files, and source archives.
+
+## Tag and Source Archive Caveat
+
+GitHub automatically exposes source archives (`Source code (zip)` and `Source code (tar.gz)`) for each tag in this repository.
+
+If this repository is public and tags exist, those generated source archives are available even when uploaded assets are binaries only.
+
+To prevent that, use one of these approaches:
+
+- keep this repository private
+- avoid creating public tags here and publish binaries from a distribution-only repository

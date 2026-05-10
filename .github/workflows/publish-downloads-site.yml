@@ -134,11 +134,22 @@ jobs:
               (site_directory / 'index.html').write_text(render_page(title, subtitle, cards, back_href=back_href), encoding='utf-8')
 
               for folder in folders:
+                  relative_parts = folder.relative_to(downloads_root).parts
+                  if len(relative_parts) == 1:
+                      child_title = f"Tool: {folder.name}"
+                      child_subtitle = f"Release tags available for {folder.name}."
+                  elif len(relative_parts) == 2:
+                      child_title = f"Release tag: {folder.name}"
+                      child_subtitle = f"Files published for release tag {folder.name}."
+                  else:
+                      child_title = f"{title} / {folder.name}"
+                      child_subtitle = 'Release-tag files are grouped under the tool name and version tag.'
+
                   write_indexes(
                       folder,
                       site_directory / folder.name,
-                      f"{title} / {folder.name}",
-                      'Release-tag files are grouped under the tool name and version tag.',
+                      child_title,
+                      child_subtitle,
                       '../'
                   )
 

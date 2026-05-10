@@ -56,7 +56,7 @@ jobs:
               with urlopen(request) as response:
                   target.write_bytes(response.read())
 
-          def pick_release(releases):
+            def pick_release(releases):
               if requested_tag:
                   for release in releases:
                       if release.get("tag_name") == requested_tag:
@@ -68,7 +68,6 @@ jobs:
 
             def allowlist_for(release_tag: str, release_version: str):
               escaped_version = re.escape(release_version)
-              escaped_tag = re.escape(release_tag)
               return [
                 (re.compile(rf"^agent-{escaped_version}\.tar\.gz$"), downloads_root / "agent" / release_tag),
                 (re.compile(rf"^audit-fleet-agent-{escaped_version}-(linux\.tar\.gz|windows\.zip)$"), downloads_root / "audit-fleet-agent" / release_tag),

@@ -37,12 +37,6 @@ jobs:
 
           source_root = Path("downloads")
           site_root = Path("site")
-          downloads_root = site_root / "downloads"
-
-          if downloads_root.exists():
-              shutil.rmtree(downloads_root)
-          if source_root.exists():
-              shutil.copytree(source_root, downloads_root, ignore=shutil.ignore_patterns(".gitkeep"))
 
           def human_size(size: int) -> str:
               for unit in ["B", "KB", "MB", "GB"]:
@@ -76,6 +70,15 @@ jobs:
                   '    .meta { margin-top: 0.4rem; color: #64748b; font-size: 0.92rem; }',
                   '    .badge { align-self: flex-start; margin-top: 0.8rem; font-size: 0.78rem; padding: 0.22rem 0.55rem; border-radius: 999px; background: #eef2ff; color: #3730a3; }',
                   '    .muted { color: #64748b; }',
+                  '    .assets { list-style: none; padding: 0; margin: 0; border: 1px solid #e5e7eb; border-radius: 16px; overflow: hidden; background: #fff; }',
+                  '    .asset { display: flex; align-items: flex-start; gap: 1rem; padding: 1rem 1.15rem; border-top: 1px solid #e5e7eb; }',
+                  '    .asset:first-child { border-top: 0; }',
+                  '    .asset .index { width: 2rem; text-align: right; color: #64748b; font-variant-numeric: tabular-nums; }',
+                  '    .asset .body { flex: 1; min-width: 0; }',
+                  '    .asset a { color: #0f4c81; text-decoration: none; font-weight: 700; word-break: break-word; }',
+                  '    .asset a:hover { text-decoration: underline; }',
+                  '    .asset .meta { margin-top: 0.25rem; color: #64748b; font-size: 0.92rem; }',
+                  '    .asset .badge { align-self: center; font-size: 0.76rem; padding: 0.22rem 0.55rem; border-radius: 999px; background: #eef2ff; color: #3730a3; }',
                   '  </style>',
                   '</head>',
                   '<body>',
@@ -108,7 +111,7 @@ jobs:
               lines.extend(['      </section>', '    </div>', '  </main>', '</body>', '</html>'])
               return '\n'.join(lines)
 
-          def render_list_page(title: str, subtitle: str, items, back_href: str | None = None):
+          def render_release_page(title: str, subtitle: str, items, back_href: str | None = None):
               lines = [
                   '<!doctype html>',
                   '<html lang="en">',
@@ -136,7 +139,6 @@ jobs:
                   '    .asset a:hover { text-decoration: underline; }',
                   '    .asset .meta { margin-top: 0.25rem; color: #64748b; font-size: 0.92rem; }',
                   '    .asset .badge { align-self: center; font-size: 0.76rem; padding: 0.22rem 0.55rem; border-radius: 999px; background: #eef2ff; color: #3730a3; }',
-                  '    .muted { color: #64748b; }',
                   '  </style>',
                   '</head>',
                   '<body>',
@@ -162,7 +164,17 @@ jobs:
                       if meta:
                           lines.append(f'              <div class="meta">{html.escape(meta)}</div>')
                       lines.append('            </div>')
-          def list_release_tags():
+                      if badge:
+                          lines.append(f'            <div class="badge">{html.escape(badge)}</div>')
+                      lines.append('          </li>')
+                  lines.append('        </ul>')
+              else:
+                  lines.append('        <p class="muted">No downloads available yet.</p>')
+
+              lines.extend(['      </section>', '    </div>', '  </main>', '</body>', '</html>'])
+              return '\n'.join(lines)
+
+          def release_tags_from_tree() -> list[str]:
               tags = set()
               if not source_root.exists():
                   return []
@@ -185,18 +197,18 @@ jobs:
               return assets
 
           site_root.mkdir(parents=True, exist_ok=True)
-          release_tags = list_release_tags()
+          release_tags = release_tags_from_tree()
 
-          root_cards = []
+          home_cards = []
           for release_tag in release_tags:
               assets = collect_release_assets(release_tag)
-              root_cards.append((release_tag, f"{release_tag}/", f"{len(assets)} artifacts", 'Release tag'))
+              home_cards.append((release_tag, f"{release_tag}/", f"{len(assets)} artifacts", 'Release tag'))
 
           (site_root / 'index.html').write_text(
               render_card_page(
                   'AuditToolkit Labs Downloads',
                   'Choose a release tag to open a GitHub-release-style list of all artifacts.',
-                  root_cards,
+                  home_cards,
               ),
               encoding='utf-8'
           )
@@ -213,15 +225,6 @@ jobs:
                       back_href='/'
                   ),
                   encoding='utf-8'
-              )
-
-          if downloads_root.exists():
-              write_indexes(
-                  downloads_root,
-                  site_root / 'downloads',
-                  'AuditToolkit Labs Downloads',
-                  'Select a tool folder to browse its release tags and the files for each tag.',
-                  '/'
               )
           PY
 

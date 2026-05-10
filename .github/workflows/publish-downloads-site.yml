@@ -124,7 +124,9 @@ jobs:
               folders, files = list_children(directory)
               cards = []
               for folder in folders:
-                  cards.append((folder.name, f"{folder.name}/", 'Version folder', 'Folder'))
+                  badge = 'Release tag' if directory == downloads_root or directory.parent == downloads_root else 'Folder'
+                  meta = 'Release tag folder' if badge == 'Release tag' else 'Folder'
+                  cards.append((folder.name, f"{folder.name}/", meta, badge))
               for file in files:
                   cards.append((file.name, file.name, human_size(file.stat().st_size), 'Download'))
 
@@ -136,7 +138,7 @@ jobs:
                       folder,
                       site_directory / folder.name,
                       f"{title} / {folder.name}",
-                      'Versioned release artifacts are grouped by tool and version.',
+                      'Release-tag files are grouped under the tool name and version tag.',
                       '../'
                   )
 
@@ -161,7 +163,7 @@ jobs:
                   downloads_root,
                   site_root / 'downloads',
                   'AuditToolkit Labs Downloads',
-                  'Select a tool folder to browse its versioned release artifacts.',
+                  'Select a tool folder to browse its release tags and the files for each tag.',
                   '/'
               )
           PY

@@ -20,7 +20,7 @@ This repository is the public distribution point for product release assets.
 
 Public downloads are published from the `downloads/<tool>/<release-tag>/` folders and deployed as a GitHub Pages site by the workflow in [`.github/workflows/publish-downloads-site.yml`](.github/workflows/publish-downloads-site.yml).
 
-Each tool gets its own top-level folder, and each release tag gets its own subfolder.
+Each tool gets its own top-level folder, each release tag gets its own subfolder, and the files live inside that tag folder.
 
 The mirror workflow in [`.github/workflows/mirror-audit-tool-release.yml`](.github/workflows/mirror-audit-tool-release.yml) syncs allowlisted assets from the source release repository and rejects anything that is not on the approved list.
 

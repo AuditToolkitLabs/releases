@@ -33,10 +33,40 @@ jobs:
           python3 - << 'PY'
           from pathlib import Path
           import html
-          import shutil
 
           source_root = Path("downloads")
           site_root = Path("site")
+
+          STYLES = '''
+            :root { color-scheme: light; }
+            body { margin: 0; font-family: "Segoe UI", sans-serif; color: #0f172a; background: linear-gradient(180deg, #eef2ff 0%, #f8fafc 28%, #f3f4f6 100%); }
+            main { max-width: 1140px; margin: 0 auto; padding: 2rem 1rem 3rem; }
+            .frame { background: rgba(255,255,255,0.88); border: 1px solid rgba(148,163,184,0.2); border-radius: 22px; overflow: hidden; box-shadow: 0 18px 50px rgba(15,23,42,0.08); }
+            .hero { padding: 2rem 2rem 1.25rem; background: linear-gradient(135deg, #0f172a 0%, #1d4ed8 55%, #2563eb 100%); color: #fff; }
+            .hero h1 { margin: 0 0 0.45rem; font-size: 2rem; }
+            .hero p { margin: 0; max-width: 74ch; color: rgba(255,255,255,0.9); }
+            .content { padding: 1.5rem 2rem 2rem; }
+            .crumbs { display: flex; flex-wrap: wrap; gap: 0.4rem; align-items: center; margin: 0 0 1.25rem; font-size: 0.92rem; color: #64748b; }
+            .crumbs a { color: #1d4ed8; text-decoration: none; }
+            .crumbs a:hover { text-decoration: underline; }
+            .crumbs .sep { color: #94a3b8; }
+            .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1rem; }
+            .card { display: flex; flex-direction: column; justify-content: space-between; min-height: 110px; border: 1px solid #e5e7eb; border-radius: 16px; padding: 1rem; background: #fff; box-shadow: 0 6px 20px rgba(15,23,42,0.04); }
+            .card a { color: #0f4c81; text-decoration: none; font-weight: 700; }
+            .card a:hover { text-decoration: underline; }
+            .meta { margin-top: 0.4rem; color: #64748b; font-size: 0.92rem; }
+            .badge { align-self: flex-start; margin-top: 0.8rem; font-size: 0.78rem; padding: 0.22rem 0.55rem; border-radius: 999px; background: #eef2ff; color: #3730a3; }
+            .muted { color: #64748b; }
+            .assets { list-style: none; padding: 0; margin: 0; border: 1px solid #e5e7eb; border-radius: 16px; overflow: hidden; background: #fff; }
+            .asset { display: flex; align-items: flex-start; gap: 1rem; padding: 1rem 1.15rem; border-top: 1px solid #e5e7eb; }
+            .asset:first-child { border-top: 0; }
+            .asset .index { width: 2rem; text-align: right; color: #64748b; font-variant-numeric: tabular-nums; }
+            .asset .body { flex: 1; min-width: 0; }
+            .asset a { color: #0f4c81; text-decoration: none; font-weight: 700; word-break: break-word; }
+            .asset a:hover { text-decoration: underline; }
+            .asset .meta { margin-top: 0.25rem; color: #64748b; font-size: 0.92rem; }
+            .asset .dl-badge { align-self: center; font-size: 0.76rem; padding: 0.22rem 0.55rem; border-radius: 999px; background: #eef2ff; color: #3730a3; }
+          '''
 
           def human_size(size: int) -> str:
               for unit in ["B", "KB", "MB", "GB"]:
@@ -44,189 +74,146 @@ jobs:
                       return f"{size} {unit}" if unit == "B" else f"{size:.1f} {unit}"
                   size /= 1024
 
-          def render_card_page(title: str, subtitle: str, cards, back_href: str | None = None):
-              lines = [
-                  '<!doctype html>',
-                  '<html lang="en">',
-                  '<head>',
-                  '  <meta charset="utf-8">',
-                  '  <meta name="viewport" content="width=device-width, initial-scale=1">',
-                  f'  <title>{html.escape(title)}</title>',
-                  '  <style>',
-                  '    :root { color-scheme: light; }',
-                  '    body { margin: 0; font-family: "Segoe UI", sans-serif; color: #0f172a; background: linear-gradient(180deg, #eef2ff 0%, #f8fafc 28%, #f3f4f6 100%); }',
-                  '    main { max-width: 1140px; margin: 0 auto; padding: 2rem 1rem 3rem; }',
-                  '    .frame { background: rgba(255,255,255,0.88); border: 1px solid rgba(148,163,184,0.2); border-radius: 22px; overflow: hidden; box-shadow: 0 18px 50px rgba(15,23,42,0.08); }',
-                  '    .hero { padding: 2rem 2rem 1.25rem; background: linear-gradient(135deg, #0f172a 0%, #1d4ed8 55%, #2563eb 100%); color: #fff; }',
-                  '    .hero h1 { margin: 0 0 0.45rem; font-size: 2rem; }',
-                  '    .hero p { margin: 0; max-width: 74ch; color: rgba(255,255,255,0.9); }',
-                  '    .content { padding: 1.5rem 2rem 2rem; }',
-                  '    .crumbs { display: flex; flex-wrap: wrap; gap: 0.5rem; margin: 0 0 1rem; font-size: 0.92rem; color: #64748b; }',
-                  '    .crumbs a { color: #1d4ed8; text-decoration: none; }',
-                  '    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1rem; }',
-                  '    .card { display: flex; flex-direction: column; justify-content: space-between; min-height: 110px; border: 1px solid #e5e7eb; border-radius: 16px; padding: 1rem; background: #fff; box-shadow: 0 6px 20px rgba(15,23,42,0.04); }',
-                  '    .card a { color: #0f4c81; text-decoration: none; font-weight: 700; }',
-                  '    .card a:hover { text-decoration: underline; }',
-                  '    .meta { margin-top: 0.4rem; color: #64748b; font-size: 0.92rem; }',
-                  '    .badge { align-self: flex-start; margin-top: 0.8rem; font-size: 0.78rem; padding: 0.22rem 0.55rem; border-radius: 999px; background: #eef2ff; color: #3730a3; }',
-                  '    .muted { color: #64748b; }',
-                  '    .assets { list-style: none; padding: 0; margin: 0; border: 1px solid #e5e7eb; border-radius: 16px; overflow: hidden; background: #fff; }',
-                  '    .asset { display: flex; align-items: flex-start; gap: 1rem; padding: 1rem 1.15rem; border-top: 1px solid #e5e7eb; }',
-                  '    .asset:first-child { border-top: 0; }',
-                  '    .asset .index { width: 2rem; text-align: right; color: #64748b; font-variant-numeric: tabular-nums; }',
-                  '    .asset .body { flex: 1; min-width: 0; }',
-                  '    .asset a { color: #0f4c81; text-decoration: none; font-weight: 700; word-break: break-word; }',
-                  '    .asset a:hover { text-decoration: underline; }',
-                  '    .asset .meta { margin-top: 0.25rem; color: #64748b; font-size: 0.92rem; }',
-                  '    .asset .badge { align-self: center; font-size: 0.76rem; padding: 0.22rem 0.55rem; border-radius: 999px; background: #eef2ff; color: #3730a3; }',
-                  '  </style>',
-                  '</head>',
-                  '<body>',
-                  '  <main>',
-                  '    <div class="frame">',
-                  '      <section class="hero">',
-                  f'        <h1>{html.escape(title)}</h1>',
-                  f'        <p>{html.escape(subtitle)}</p>',
-                  '      </section>',
-                  '      <section class="content">',
-              ]
+          def page_shell(title: str, hero_subtitle: str, crumbs: list, body_html: str) -> str:
+              crumb_html = ''
+              if crumbs:
+                  parts = []
+                  for label, href in crumbs[:-1]:
+                      parts.append(f'<a href="{html.escape(href)}">{html.escape(label)}</a>')
+                      parts.append('<span class="sep">/</span>')
+                  parts.append(f'<span>{html.escape(crumbs[-1][0])}</span>')
+                  crumb_html = f'<div class="crumbs">{"".join(parts)}</div>'
+              return f'''<!doctype html>
+          <html lang="en">
+          <head>
+            <meta charset="utf-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1">
+            <title>{html.escape(title)}</title>
+            <style>{STYLES}</style>
+          </head>
+          <body>
+            <main>
+              <div class="frame">
+                <section class="hero">
+                  <h1>{html.escape(title)}</h1>
+                  <p>{html.escape(hero_subtitle)}</p>
+                </section>
+                <section class="content">
+                  {crumb_html}
+                  {body_html}
+                </section>
+              </div>
+            </main>
+          </body>
+          </html>'''
 
-              if back_href:
-                  lines.append(f'        <div class="crumbs"><a href="{html.escape(back_href)}">Back</a></div>')
+          def card_grid(cards):
+              if not cards:
+                  return '<p class="muted">No downloads available yet.</p>'
+              items = []
+              for label, href, meta, badge in cards:
+                  m = f'<div class="meta">{html.escape(meta)}</div>' if meta else ''
+                  b = f'<div class="badge">{html.escape(badge)}</div>' if badge else ''
+                  items.append(f'<div class="card"><div><a href="{html.escape(href)}">{html.escape(label)}</a></div>{m}{b}</div>')
+              return f'<div class="grid">{"".join(items)}</div>'
 
-              if cards:
-                  lines.append('        <div class="grid">')
-                  for label, href, meta, badge in cards:
-                      lines.append('          <div class="card">')
-                      lines.append(f'            <div><a href="{html.escape(href)}">{html.escape(label)}</a></div>')
-                      if meta:
-                          lines.append(f'            <div class="meta">{html.escape(meta)}</div>')
-                      if badge:
-                          lines.append(f'            <div class="badge">{html.escape(badge)}</div>')
-                      lines.append('          </div>')
-                  lines.append('        </div>')
-              else:
-                  lines.append('        <p class="muted">No downloads available yet.</p>')
-
-              lines.extend(['      </section>', '    </div>', '  </main>', '</body>', '</html>'])
-              return '\n'.join(lines)
-
-          def render_release_page(title: str, subtitle: str, items, back_href: str | None = None):
-              lines = [
-                  '<!doctype html>',
-                  '<html lang="en">',
-                  '<head>',
-                  '  <meta charset="utf-8">',
-                  '  <meta name="viewport" content="width=device-width, initial-scale=1">',
-                  f'  <title>{html.escape(title)}</title>',
-                  '  <style>',
-                  '    :root { color-scheme: light; }',
-                  '    body { margin: 0; font-family: "Segoe UI", sans-serif; color: #0f172a; background: linear-gradient(180deg, #eef2ff 0%, #f8fafc 28%, #f3f4f6 100%); }',
-                  '    main { max-width: 1140px; margin: 0 auto; padding: 2rem 1rem 3rem; }',
-                  '    .frame { background: rgba(255,255,255,0.88); border: 1px solid rgba(148,163,184,0.2); border-radius: 22px; overflow: hidden; box-shadow: 0 18px 50px rgba(15,23,42,0.08); }',
-                  '    .hero { padding: 2rem 2rem 1.25rem; background: linear-gradient(135deg, #0f172a 0%, #1d4ed8 55%, #2563eb 100%); color: #fff; }',
-                  '    .hero h1 { margin: 0 0 0.45rem; font-size: 2rem; }',
-                  '    .hero p { margin: 0; max-width: 74ch; color: rgba(255,255,255,0.9); }',
-                  '    .content { padding: 1.5rem 2rem 2rem; }',
-                  '    .crumbs { display: flex; flex-wrap: wrap; gap: 0.5rem; margin: 0 0 1rem; font-size: 0.92rem; color: #64748b; }',
-                  '    .crumbs a { color: #1d4ed8; text-decoration: none; }',
-                  '    .assets { list-style: none; padding: 0; margin: 0; border: 1px solid #e5e7eb; border-radius: 16px; overflow: hidden; background: #fff; }',
-                  '    .asset { display: flex; align-items: flex-start; gap: 1rem; padding: 1rem 1.15rem; border-top: 1px solid #e5e7eb; }',
-                  '    .asset:first-child { border-top: 0; }',
-                  '    .asset .index { width: 2rem; text-align: right; color: #64748b; font-variant-numeric: tabular-nums; }',
-                  '    .asset .body { flex: 1; min-width: 0; }',
-                  '    .asset a { color: #0f4c81; text-decoration: none; font-weight: 700; word-break: break-word; }',
-                  '    .asset a:hover { text-decoration: underline; }',
-                  '    .asset .meta { margin-top: 0.25rem; color: #64748b; font-size: 0.92rem; }',
-                  '    .asset .badge { align-self: center; font-size: 0.76rem; padding: 0.22rem 0.55rem; border-radius: 999px; background: #eef2ff; color: #3730a3; }',
-                  '  </style>',
-                  '</head>',
-                  '<body>',
-                  '  <main>',
-                  '    <div class="frame">',
-                  '      <section class="hero">',
-                  f'        <h1>{html.escape(title)}</h1>',
-                  f'        <p>{html.escape(subtitle)}</p>',
-                  '      </section>',
-                  '      <section class="content">',
-              ]
-
-              if back_href:
-                  lines.append(f'        <div class="crumbs"><a href="{html.escape(back_href)}">Back</a></div>')
-
-              if items:
-                  lines.append('        <ul class="assets">')
-                  for index, (label, href, meta, badge) in enumerate(items, start=1):
-                      lines.append('          <li class="asset">')
-                      lines.append(f'            <div class="index">{index}</div>')
-                      lines.append('            <div class="body">')
-                      lines.append(f'              <div><a href="{html.escape(href)}">{html.escape(label)}</a></div>')
-                      if meta:
-                          lines.append(f'              <div class="meta">{html.escape(meta)}</div>')
-                      lines.append('            </div>')
-                      if badge:
-                          lines.append(f'            <div class="badge">{html.escape(badge)}</div>')
-                      lines.append('          </li>')
-                  lines.append('        </ul>')
-              else:
-                  lines.append('        <p class="muted">No downloads available yet.</p>')
-
-              lines.extend(['      </section>', '    </div>', '  </main>', '</body>', '</html>'])
-              return '\n'.join(lines)
-
-          def release_tags_from_tree() -> list[str]:
-              tags = set()
-              if not source_root.exists():
-                  return []
-              for tool_dir in sorted([p for p in source_root.iterdir() if p.is_dir()], key=lambda p: p.name.lower()):
-                  for tag_dir in sorted([p for p in tool_dir.iterdir() if p.is_dir()], key=lambda p: p.name.lower()):
-                      if tag_dir.name.startswith('v'):
-                          tags.add(tag_dir.name)
-              return sorted(tags, reverse=True)
-
-          def collect_release_assets(release_tag: str):
-              assets = []
-              if not source_root.exists():
-                  return assets
-              for tool_dir in sorted([p for p in source_root.iterdir() if p.is_dir()], key=lambda p: p.name.lower()):
-                  tag_dir = tool_dir / release_tag
-                  if not tag_dir.exists():
-                      continue
-                  for file in sorted([p for p in tag_dir.iterdir() if p.is_file()], key=lambda p: p.name.lower()):
-                      assets.append((file.name, f"downloads/{tool_dir.name}/{release_tag}/{file.name}", f"{tool_dir.name} • {human_size(file.stat().st_size)}", 'Artifact'))
-              return assets
+          def asset_list(assets):
+              if not assets:
+                  return '<p class="muted">No files available yet.</p>'
+              rows = []
+              for i, (label, href, meta, badge) in enumerate(assets, start=1):
+                  m = f'<div class="meta">{html.escape(meta)}</div>' if meta else ''
+                  b = f'<div class="dl-badge">{html.escape(badge)}</div>' if badge else ''
+                  rows.append(
+                      f'<li class="asset">'
+                      f'<div class="index">{i}</div>'
+                      f'<div class="body"><div><a href="{html.escape(href)}">{html.escape(label)}</a></div>{m}</div>'
+                      f'{b}</li>'
+                  )
+              return f'<ul class="assets">{"".join(rows)}</ul>'
 
           site_root.mkdir(parents=True, exist_ok=True)
-          release_tags = release_tags_from_tree()
 
-          home_cards = []
-          for release_tag in release_tags:
-              assets = collect_release_assets(release_tag)
-              home_cards.append((release_tag, f"{release_tag}/", f"{len(assets)} artifacts", 'Release tag'))
+          if not source_root.exists():
+              (site_root / 'index.html').write_text(
+                  page_shell('AuditToolkit Labs Downloads', 'No downloads available yet.', [], '<p class="muted">No downloads available yet.</p>'),
+                  encoding='utf-8'
+              )
+          else:
+              tool_dirs = sorted([p for p in source_root.iterdir() if p.is_dir()], key=lambda p: p.name.lower())
 
-          (site_root / 'index.html').write_text(
-              render_card_page(
-                  'AuditToolkit Labs Downloads',
-                  'Choose a release tag to open a GitHub-release-style list of all artifacts.',
-                  home_cards,
-              ),
-              encoding='utf-8'
-          )
+              # Home page — one card per tool
+              home_cards = []
+              for tool_dir in tool_dirs:
+                  version_dirs = sorted([p for p in tool_dir.iterdir() if p.is_dir() and p.name.startswith('v')], reverse=True)
+                  file_count = sum(len([f for f in vd.iterdir() if f.is_file()]) for vd in version_dirs)
+                  home_cards.append((
+                      tool_dir.name,
+                      f'{tool_dir.name}/',
+                      f'{len(version_dirs)} version{"s" if len(version_dirs) != 1 else ""} • {file_count} files',
+                      'Tool'
+                  ))
 
-          for release_tag in release_tags:
-              assets = collect_release_assets(release_tag)
-              release_dir = site_root / release_tag
-              release_dir.mkdir(parents=True, exist_ok=True)
-              (release_dir / 'index.html').write_text(
-                  render_release_page(
-                      f'Release tag: {release_tag}',
-                      f'{len(assets)} artifacts available for this release.',
-                      assets,
-                      back_href='/'
+              (site_root / 'index.html').write_text(
+                  page_shell(
+                      'AuditToolkit Labs Downloads',
+                      'Select a tool to browse available versions and download artifacts.',
+                      [],
+                      card_grid(home_cards)
                   ),
                   encoding='utf-8'
               )
+
+              for tool_dir in tool_dirs:
+                  version_dirs = sorted([p for p in tool_dir.iterdir() if p.is_dir() and p.name.startswith('v')], reverse=True)
+                  tool_site_dir = site_root / tool_dir.name
+                  tool_site_dir.mkdir(parents=True, exist_ok=True)
+
+                  # Tool page — one card per version
+                  version_cards = []
+                  for vd in version_dirs:
+                      files = [f for f in vd.iterdir() if f.is_file()]
+                      version_cards.append((
+                          vd.name,
+                          f'{vd.name}/',
+                          f'{len(files)} file{"s" if len(files) != 1 else ""}',
+                          'Release'
+                      ))
+
+                  (tool_site_dir / 'index.html').write_text(
+                      page_shell(
+                          tool_dir.name,
+                          f'Available versions for {tool_dir.name}.',
+                          [('Home', '/'), (tool_dir.name, '')],
+                          card_grid(version_cards)
+                      ),
+                      encoding='utf-8'
+                  )
+
+                  for vd in version_dirs:
+                      version_site_dir = tool_site_dir / vd.name
+                      version_site_dir.mkdir(parents=True, exist_ok=True)
+
+                      # Version page — asset list with direct download links
+                      files = sorted([f for f in vd.iterdir() if f.is_file()], key=lambda f: f.name.lower())
+                      dl_assets = []
+                      for f in files:
+                          dl_href = f'/downloads/{tool_dir.name}/{vd.name}/{f.name}'
+                          dl_assets.append((f.name, dl_href, human_size(f.stat().st_size), 'Download'))
+
+                      (version_site_dir / 'index.html').write_text(
+                          page_shell(
+                              f'{tool_dir.name} {vd.name}',
+                              f'{len(files)} file{"s" if len(files) != 1 else ""} available for download.',
+                              [('Home', '/'), (tool_dir.name, f'/{tool_dir.name}/'), (vd.name, '')],
+                              asset_list(dl_assets)
+                          ),
+                          encoding='utf-8'
+                      )
           PY
+
+      - name: Copy downloads into site
+        run: cp -r downloads site/downloads
 
       - name: Configure Pages
         uses: actions/configure-pages@v5

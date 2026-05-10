@@ -18,9 +18,9 @@ This repository is the public distribution point for product release assets.
 
 ## Binary Distribution Method
 
-Public downloads are published from the `downloads/files/` folder and deployed as a GitHub Pages site by the workflow in [`.github/workflows/publish-downloads-site.yml`](.github/workflows/publish-downloads-site.yml).
+Public downloads are published from the `downloads/<tool>/v<version>/` folders and deployed as a GitHub Pages site by the workflow in [`.github/workflows/publish-downloads-site.yml`](.github/workflows/publish-downloads-site.yml).
 
-The generated index page lists all files found in `downloads/files/`.
+Each tool gets its own top-level folder, and each release version gets its own subfolder.
 
 ## Source Protection Controls
 
@@ -48,10 +48,16 @@ After enabling, verify by attempting to create a test tag from a non-admin accou
 
 ## Publishing Steps
 
-1. Copy binaries, checksums, and signatures into `downloads/files/`.
+1. Copy binaries, checksums, and signatures into the correct `downloads/<tool>/v<version>/` folder.
 2. Commit and push to `main`.
 3. Wait for the Pages deployment workflow to finish.
 4. Validate downloads from the published Pages URL.
+
+For example:
+
+- `downloads/audit-toolkit/v6.4.4/`
+- `downloads/audit-fleet-agent/v6.4.4/`
+- `downloads/release/v6.4.4/`
 
 ## File Requirements
 

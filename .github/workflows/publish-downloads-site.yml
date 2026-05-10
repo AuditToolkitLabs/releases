@@ -40,81 +40,131 @@ jobs:
           downloads_root = site_root / "downloads"
 
           if downloads_root.exists():
-            shutil.rmtree(downloads_root)
+              shutil.rmtree(downloads_root)
           if source_root.exists():
-            shutil.copytree(source_root, downloads_root, ignore=shutil.ignore_patterns(".gitkeep"))
+              shutil.copytree(source_root, downloads_root, ignore=shutil.ignore_patterns(".gitkeep"))
 
-          def render_page(title: str, subtitle: str, items):
-            lines = [
-              '<!doctype html>',
-              '<html lang="en">',
-              '<head>',
-              '  <meta charset="utf-8">',
-              '  <meta name="viewport" content="width=device-width, initial-scale=1">',
-              f'  <title>{html.escape(title)}</title>',
-              '  <style>',
-              '    body { font-family: "Segoe UI", sans-serif; margin: 2rem; color: #111827; background: #f3f4f6; }',
-              '    main { max-width: 960px; margin: 0 auto; background: #fff; border-radius: 12px; padding: 1.5rem 1.75rem; box-shadow: 0 8px 30px rgba(0,0,0,0.08); }',
-              '    h1 { margin-top: 0; }',
-              '    ul { line-height: 1.8; padding-left: 1.25rem; }',
-              '    a { color: #0f4c81; text-decoration: none; }',
-              '    a:hover { text-decoration: underline; }',
-              '    .meta { color: #6b7280; font-size: 0.92rem; }',
-              '    .crumb { margin-bottom: 1rem; }',
-              '  </style>',
-              '</head>',
-              '<body>',
-              '  <main>',
-              f'    <h1>{html.escape(title)}</h1>',
-              f'    <p class="meta">{html.escape(subtitle)}</p>',
-            ]
+          def human_size(size: int) -> str:
+              for unit in ["B", "KB", "MB", "GB"]:
+                  if size < 1024 or unit == "GB":
+                      return f"{size} {unit}" if unit == "B" else f"{size:.1f} {unit}"
+                  size /= 1024
 
-            if items:
-              lines.append('    <ul>')
-              for label, href, meta in items:
-                meta_html = f' <span class="meta">({html.escape(meta)})</span>' if meta else ''
-                lines.append(f'      <li><a href="{html.escape(href)}">{html.escape(label)}</a>{meta_html}</li>')
-              lines.append('    </ul>')
-            else:
-              lines.append('    <p class="meta">No downloads available yet.</p>')
+          def render_page(title: str, subtitle: str, cards, back_href: str | None = None):
+              lines = [
+                  '<!doctype html>',
+                  '<html lang="en">',
+                  '<head>',
+                  '  <meta charset="utf-8">',
+                  '  <meta name="viewport" content="width=device-width, initial-scale=1">',
+                  f'  <title>{html.escape(title)}</title>',
+                  '  <style>',
+                  '    :root { color-scheme: light; }',
+                  '    body { margin: 0; font-family: "Segoe UI", sans-serif; color: #0f172a; background: linear-gradient(180deg, #eef2ff 0%, #f8fafc 28%, #f3f4f6 100%); }',
+                  '    main { max-width: 1140px; margin: 0 auto; padding: 2rem 1rem 3rem; }',
+                  '    .frame { background: rgba(255,255,255,0.88); border: 1px solid rgba(148,163,184,0.2); border-radius: 22px; overflow: hidden; box-shadow: 0 18px 50px rgba(15,23,42,0.08); }',
+                  '    .hero { padding: 2rem 2rem 1.25rem; background: linear-gradient(135deg, #0f172a 0%, #1d4ed8 55%, #2563eb 100%); color: #fff; }',
+                  '    .hero h1 { margin: 0 0 0.45rem; font-size: 2rem; }',
+                  '    .hero p { margin: 0; max-width: 74ch; color: rgba(255,255,255,0.9); }',
+                  '    .content { padding: 1.5rem 2rem 2rem; }',
+                  '    .crumbs { display: flex; flex-wrap: wrap; gap: 0.5rem; margin: 0 0 1rem; font-size: 0.92rem; color: #64748b; }',
+                  '    .crumbs a { color: #1d4ed8; text-decoration: none; }',
+                  '    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1rem; }',
+                  '    .card { display: flex; flex-direction: column; justify-content: space-between; min-height: 110px; border: 1px solid #e5e7eb; border-radius: 16px; padding: 1rem; background: #fff; box-shadow: 0 6px 20px rgba(15,23,42,0.04); }',
+                  '    .card a { color: #0f4c81; text-decoration: none; font-weight: 700; }',
+                  '    .card a:hover { text-decoration: underline; }',
+                  '    .meta { margin-top: 0.4rem; color: #64748b; font-size: 0.92rem; }',
+                  '    .badge { align-self: flex-start; margin-top: 0.8rem; font-size: 0.78rem; padding: 0.22rem 0.55rem; border-radius: 999px; background: #eef2ff; color: #3730a3; }',
+                  '    .muted { color: #64748b; }',
+                  '  </style>',
+                  '</head>',
+                  '<body>',
+                  '  <main>',
+                  '    <div class="frame">',
+                  '      <section class="hero">',
+                  f'        <h1>{html.escape(title)}</h1>',
+                  f'        <p>{html.escape(subtitle)}</p>',
+                  '      </section>',
+                  '      <section class="content">',
+              ]
 
-            lines.extend(['  </main>', '</body>', '</html>'])
-            return '\n'.join(lines)
+              if back_href:
+                  lines.append(f'        <div class="crumbs"><a href="{html.escape(back_href)}">Back</a></div>')
 
-          def page_items(directory: Path, depth: int):
-            entries = []
-            for child in sorted(directory.iterdir(), key=lambda p: (p.is_file(), p.name.lower())):
-              if child.name == 'index.html':
-                continue
-              if child.is_dir():
-                entries.append((child.name, f"{child.name}/", 'folder'))
+              if cards:
+                  lines.append('        <div class="grid">')
+                  for label, href, meta, badge in cards:
+                      lines.append('          <div class="card">')
+                      lines.append(f'            <div><a href="{html.escape(href)}">{html.escape(label)}</a></div>')
+                      if meta:
+                          lines.append(f'            <div class="meta">{html.escape(meta)}</div>')
+                      if badge:
+                          lines.append(f'            <div class="badge">{html.escape(badge)}</div>')
+                      lines.append('          </div>')
+                  lines.append('        </div>')
               else:
-                size = child.stat().st_size
-                entries.append((child.name, child.name, f'{size} bytes'))
-            return entries
+                  lines.append('        <p class="muted">No downloads available yet.</p>')
+
+              lines.extend(['      </section>', '    </div>', '  </main>', '</body>', '</html>'])
+              return '\n'.join(lines)
+
+          def list_children(directory: Path):
+              folders = []
+              files = []
+              for child in sorted(directory.iterdir(), key=lambda p: (p.is_file(), p.name.lower())):
+                  if child.name == 'index.html':
+                      continue
+                  if child.is_dir():
+                      folders.append(child)
+                  else:
+                      files.append(child)
+              return folders, files
+
+          def write_indexes(directory: Path, site_directory: Path, title: str, subtitle: str, back_href: str | None):
+              folders, files = list_children(directory)
+              cards = []
+              for folder in folders:
+                  cards.append((folder.name, f"{folder.name}/", 'Version folder', 'Folder'))
+              for file in files:
+                  cards.append((file.name, file.name, human_size(file.stat().st_size), 'Download'))
+
+              site_directory.mkdir(parents=True, exist_ok=True)
+              (site_directory / 'index.html').write_text(render_page(title, subtitle, cards, back_href=back_href), encoding='utf-8')
+
+              for folder in folders:
+                  write_indexes(
+                      folder,
+                      site_directory / folder.name,
+                      f"{title} / {folder.name}",
+                      'Versioned release artifacts are grouped by tool and version.',
+                      '../'
+                  )
 
           site_root.mkdir(parents=True, exist_ok=True)
+
+          top_cards = []
+          if downloads_root.exists():
+              for folder in sorted([p for p in downloads_root.iterdir() if p.is_dir()], key=lambda p: p.name.lower()):
+                  top_cards.append((folder.name, f"downloads/{folder.name}/", 'Browse version folders and downloads', 'Tool'))
+
           (site_root / 'index.html').write_text(
-            render_page(
-              'AuditToolkit Labs Downloads',
-              'Select a tool folder to browse its versioned release artifacts.',
-              [('downloads/', 'downloads/', 'tool and version folders')] if downloads_root.exists() else []
-            ),
-            encoding='utf-8'
+              render_page(
+                  'AuditToolkit Labs Downloads',
+                  'Public binaries are grouped by tool and release version. Pick a tool below or browse the full downloads tree.',
+                  top_cards,
+              ),
+              encoding='utf-8'
           )
 
           if downloads_root.exists():
-            for directory in [downloads_root] + [p for p in downloads_root.rglob('*') if p.is_dir()]:
-              items = page_items(directory, 0)
-              rel_dir = directory.relative_to(site_root)
-              directory.joinpath('index.html').write_text(
-                render_page(
-                  f'AuditToolkit Labs Downloads / {rel_dir.as_posix()}',
-                  'Versioned release artifacts are grouped by tool and version.',
-                  items
-                ),
-                encoding='utf-8'
+              write_indexes(
+                  downloads_root,
+                  site_root / 'downloads',
+                  'AuditToolkit Labs Downloads',
+                  'Select a tool folder to browse its versioned release artifacts.',
+                  '/'
               )
+          PY
 
       - name: Configure Pages
         uses: actions/configure-pages@v5

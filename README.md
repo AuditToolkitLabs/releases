@@ -22,6 +22,8 @@ Public downloads are published from the `downloads/<tool>/v<version>/` folders a
 
 Each tool gets its own top-level folder, and each release version gets its own subfolder.
 
+The mirror workflow in [`.github/workflows/mirror-audit-tool-release.yml`](.github/workflows/mirror-audit-tool-release.yml) syncs allowlisted assets from the source release repository and rejects anything that is not on the approved list.
+
 ## Source Protection Controls
 
 The workflow in [`.github/workflows/validate-release-assets.yml`](.github/workflows/validate-release-assets.yml) blocks source-like uploaded Release assets.
@@ -58,6 +60,8 @@ For example:
 - `downloads/audit-toolkit/v6.4.4/`
 - `downloads/audit-fleet-agent/v6.4.4/`
 - `downloads/release/v6.4.4/`
+
+The landing page is card-based, so each folder is easier to scan visually instead of reading a flat file list.
 
 ## File Requirements
 

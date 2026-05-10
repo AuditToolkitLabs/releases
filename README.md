@@ -18,9 +18,9 @@ This repository is the public distribution point for product release assets.
 
 ## Binary Distribution Method
 
-Public downloads are published from the `downloads/<tool>/v<version>/` folders and deployed as a GitHub Pages site by the workflow in [`.github/workflows/publish-downloads-site.yml`](.github/workflows/publish-downloads-site.yml).
+Public downloads are published from the `downloads/<tool>/<release-tag>/` folders and deployed as a GitHub Pages site by the workflow in [`.github/workflows/publish-downloads-site.yml`](.github/workflows/publish-downloads-site.yml).
 
-Each tool gets its own top-level folder, and each release version gets its own subfolder.
+Each tool gets its own top-level folder, and each release tag gets its own subfolder.
 
 The mirror workflow in [`.github/workflows/mirror-audit-tool-release.yml`](.github/workflows/mirror-audit-tool-release.yml) syncs allowlisted assets from the source release repository and rejects anything that is not on the approved list.
 
@@ -50,7 +50,7 @@ After enabling, verify by attempting to create a test tag from a non-admin accou
 
 ## Publishing Steps
 
-1. Copy binaries, checksums, and signatures into the correct `downloads/<tool>/v<version>/` folder.
+1. Copy binaries, checksums, and signatures into the correct `downloads/<tool>/<release-tag>/` folder.
 2. Commit and push to `main`.
 3. Wait for the Pages deployment workflow to finish.
 4. Validate downloads from the published Pages URL.

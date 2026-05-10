@@ -66,33 +66,35 @@ jobs:
                   raise SystemExit(f"No releases found in {source_repo}.")
               return releases[0]
 
-          def allowlist_for(version: str):
-              escaped = re.escape(version)
+            def allowlist_for(release_tag: str, release_version: str):
+              escaped_version = re.escape(release_version)
+              escaped_tag = re.escape(release_tag)
               return [
-                  (re.compile(rf"^agent-{escaped}\.tar\.gz$"), downloads_root / "agent" / version),
-                  (re.compile(rf"^audit-fleet-agent-{escaped}-(linux\.tar\.gz|windows\.zip)$"), downloads_root / "audit-fleet-agent" / version),
-                  (re.compile(rf"^audit-hypervisor-agent-{escaped}-(esxi\.tar\.gz|linux\.tar\.gz)$"), downloads_root / "audit-hypervisor-agent" / version),
-                  (re.compile(rf"^audit-standalone-agent-{escaped}-(linux\.tar\.gz|windows\.zip)$"), downloads_root / "audit-standalone-agent" / version),
-                  (re.compile(rf"^audit-toolkit-{escaped}-1\.noarch\.rpm$"), downloads_root / "audit-toolkit" / version),
-                  (re.compile(rf"^audit-toolkit-full-{escaped}-(linux\.tar\.gz|windows\.zip)$"), downloads_root / "audit-toolkit" / version),
-                  (re.compile(rf"^audit-toolkit_{escaped}_all\.deb$"), downloads_root / "audit-toolkit" / version),
-                  (re.compile(rf"^fleet-agent-(linux|windows)-{escaped}\.(tar\.gz|zip)$"), downloads_root / "audit-fleet-agent" / version),
-                  (re.compile(rf"^lightweight-agent-(linux|windows)-{escaped}\.(tar\.gz|zip)$"), downloads_root / "lightweight-agent" / version),
-                  (re.compile(rf"^scripts-{escaped}\.tar\.gz$"), downloads_root / "scripts" / version),
-                  (re.compile(rf"^unified-jre-agent-{escaped}\.tar\.gz$"), downloads_root / "unified-jre-agent" / version),
-                  (re.compile(rf"^web-{escaped}\.tar\.gz$"), downloads_root / "web" / version),
-                  (re.compile(rf"^checksums-ci-{escaped}\.txt$"), downloads_root / "release" / version),
-                  (re.compile(r"^manifest\.json$"), downloads_root / "release" / version),
-                  (re.compile(r"^changelog\.md$"), downloads_root / "release" / version),
+                (re.compile(rf"^agent-{escaped_version}\.tar\.gz$"), downloads_root / "agent" / release_tag),
+                (re.compile(rf"^audit-fleet-agent-{escaped_version}-(linux\.tar\.gz|windows\.zip)$"), downloads_root / "audit-fleet-agent" / release_tag),
+                (re.compile(rf"^audit-hypervisor-agent-{escaped_version}-(esxi\.tar\.gz|linux\.tar\.gz)$"), downloads_root / "audit-hypervisor-agent" / release_tag),
+                (re.compile(rf"^audit-standalone-agent-{escaped_version}-(linux\.tar\.gz|windows\.zip)$"), downloads_root / "audit-standalone-agent" / release_tag),
+                (re.compile(rf"^audit-toolkit-{escaped_version}-1\.noarch\.rpm$"), downloads_root / "audit-toolkit" / release_tag),
+                (re.compile(rf"^audit-toolkit-full-{escaped_version}-(linux\.tar\.gz|windows\.zip)$"), downloads_root / "audit-toolkit" / release_tag),
+                (re.compile(rf"^audit-toolkit_{escaped_version}_all\.deb$"), downloads_root / "audit-toolkit" / release_tag),
+                (re.compile(rf"^fleet-agent-(linux|windows)-{escaped_version}\.(tar\.gz|zip)$"), downloads_root / "audit-fleet-agent" / release_tag),
+                (re.compile(rf"^lightweight-agent-(linux|windows)-{escaped_version}\.(tar\.gz|zip)$"), downloads_root / "lightweight-agent" / release_tag),
+                (re.compile(rf"^scripts-{escaped_version}\.tar\.gz$"), downloads_root / "scripts" / release_tag),
+                (re.compile(rf"^unified-jre-agent-{escaped_version}\.tar\.gz$"), downloads_root / "unified-jre-agent" / release_tag),
+                (re.compile(rf"^web-{escaped_version}\.tar\.gz$"), downloads_root / "web" / release_tag),
+                (re.compile(rf"^checksums-ci-{escaped_version}\.txt$"), downloads_root / "release" / release_tag),
+                (re.compile(r"^manifest\.json$"), downloads_root / "release" / release_tag),
+                (re.compile(r"^changelog\.md$"), downloads_root / "release" / release_tag),
               ]
 
           releases_url = f"https://api.github.com/repos/{source_repo}/releases?per_page=100"
           releases = github_json(releases_url)
           release = pick_release(releases)
           tag = release["tag_name"]
-          version = tag.lstrip("v")
+          release_tag = tag
+          release_version = tag.lstrip("v")
           assets = release.get("assets", [])
-          allowed = allowlist_for(version)
+          allowed = allowlist_for(release_tag, release_version)
 
           matched_assets = set()
           violations = []

@@ -195,11 +195,18 @@ jobs:
                       version_site_dir.mkdir(parents=True, exist_ok=True)
 
                       # Version page — asset list with direct download links
-                      files = sorted([f for f in vd.iterdir() if f.is_file()], key=lambda f: f.name.lower())
+                      import json as _json
+                      files = sorted([f for f in vd.iterdir() if f.is_file() and f.name != 'external-links.json'], key=lambda f: f.name.lower())
                       dl_assets = []
                       for f in files:
                           dl_href = f'/downloads/{tool_dir.name}/{vd.name}/{f.name}'
                           dl_assets.append((f.name, dl_href, human_size(f.stat().st_size), 'Download'))
+                      ext_file = vd / 'external-links.json'
+                      if ext_file.exists():
+                          for entry in _json.loads(ext_file.read_text(encoding='utf-8')):
+                              size_str = entry.get('size', '')
+                              badge = entry.get('badge', 'External')
+                              dl_assets.append((entry['name'], entry['url'], size_str, badge))
 
                       (version_site_dir / 'index.html').write_text(
                           page_shell(

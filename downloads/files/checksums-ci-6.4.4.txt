@@ -1,0 +1,16 @@
+# SHA256 checksums for Security Audit Toolkit v6.4.4 — CI-built artifacts
+# Generated: 2026-05-10T17:37:39Z
+# Source: GitHub Actions run 25635276333
+
+a4f73b2fadd482a14a023556001d7627197dea497ce9cd3c364b0d335b0e8dd9  deployment/fleet-agent-linux-6.4.4.tar.gz
+dfb83f541f0dc52a92619c96ded946d7f8ecc2ae4128bcea81d5838b1b6955a1  deployment/fleet-agent-windows-6.4.4.zip
+bc37d286fa7f009a0ad62f880f9718cdd369ddd983df1587e01c3cb7e5545ad9  deployment/lightweight-agent-linux-6.4.4.tar.gz
+26d9da06f31b09c9042fb73db0db79b16eaac74575b00627239fc931118cb30a  deployment/lightweight-agent-windows-6.4.4.zip
+28866db0b735736c0e0d1f4c1d3e234d7265b47c19edd7cb80bb5d5aa14f1f71  deployment/audit-toolkit-full-6.4.4-linux.tar.gz
+3aab31ebe43fdd547383abd862bac6fb4ef89963c991d93f18dad88bd89533e5  deployment/audit-toolkit-full-6.4.4-windows.zip
+fa1262d113e8650f1e910fa63f1e1e9f8f11cdc4f34b0c9826e37661d3ac7220  deployment/unified-jre-agent-6.4.4.tar.gz
+f4289f0d00f9510f08e682f81194b0f92693a3d9a4e9c65920e1d402b3564925  deployment/audit-toolkit-6.4.4-1.noarch.rpm
+94ae692b6f477417e4e8762505391cae25e25fe4869460ceb71138239ac9309c  deployment/audit-toolkit_6.4.4_all.deb
+b4b9ad40f94441ecb3fa55606f29ac05faf8fdbc91497f0c420c8577b69f4bbd  deployment/agent-6.4.4.tar.gz
+108774525677037fd205196717a8e22570deb07a9723e4ed49de91741d9b96e9  deployment/scripts-6.4.4.tar.gz
+7cc15921109150b2ef6cc1f4279efe86fd67c7aa0bddab94f9942fb79a221cce  deployment/web-6.4.4.tar.gz

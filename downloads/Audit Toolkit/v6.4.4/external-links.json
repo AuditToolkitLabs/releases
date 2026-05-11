@@ -1,121 +1,121 @@
 [
   {
     "name": "agent-6.4.4.tar.gz",
-    "url": "https://audittoolkitlabs.sharepoint.com/:f:/s/AuditToolkitCustomerReleasePortal/IgBFzZGgx05KSpixJsE7F4tiAfk3Q8lGYjNUxKZHSDBDFqc?e=UteNuR",
+    "url": "https://audittoolkitlabs.sharepoint.com/:f:/s/AuditToolkitCustomerReleasePortal/IgDit6pIFj65QJjzrA4r8hsTAUqvVN6WfHK5wenOrDS_UN8?e=wdLcbH",
     "size": "",
     "badge": "SharePoint"
   },
   {
     "name": "audit-fleet-agent-6.4.4-linux.tar.gz",
-    "url": "https://audittoolkitlabs.sharepoint.com/:f:/s/AuditToolkitCustomerReleasePortal/IgBFzZGgx05KSpixJsE7F4tiAfk3Q8lGYjNUxKZHSDBDFqc?e=UteNuR",
+    "url": "https://audittoolkitlabs.sharepoint.com/:f:/s/AuditToolkitCustomerReleasePortal/IgDit6pIFj65QJjzrA4r8hsTAUqvVN6WfHK5wenOrDS_UN8?e=wdLcbH",
     "size": "",
     "badge": "SharePoint"
   },
   {
     "name": "audit-fleet-agent-6.4.4-windows.zip",
-    "url": "https://audittoolkitlabs.sharepoint.com/:f:/s/AuditToolkitCustomerReleasePortal/IgBFzZGgx05KSpixJsE7F4tiAfk3Q8lGYjNUxKZHSDBDFqc?e=UteNuR",
+    "url": "https://audittoolkitlabs.sharepoint.com/:f:/s/AuditToolkitCustomerReleasePortal/IgDit6pIFj65QJjzrA4r8hsTAUqvVN6WfHK5wenOrDS_UN8?e=wdLcbH",
     "size": "",
     "badge": "SharePoint"
   },
   {
     "name": "audit-hypervisor-agent-6.4.4-esxi.tar.gz",
-    "url": "https://audittoolkitlabs.sharepoint.com/:f:/s/AuditToolkitCustomerReleasePortal/IgBFzZGgx05KSpixJsE7F4tiAfk3Q8lGYjNUxKZHSDBDFqc?e=UteNuR",
+    "url": "https://audittoolkitlabs.sharepoint.com/:f:/s/AuditToolkitCustomerReleasePortal/IgDit6pIFj65QJjzrA4r8hsTAUqvVN6WfHK5wenOrDS_UN8?e=wdLcbH",
     "size": "",
     "badge": "SharePoint"
   },
   {
     "name": "audit-hypervisor-agent-6.4.4-linux.tar.gz",
-    "url": "https://audittoolkitlabs.sharepoint.com/:f:/s/AuditToolkitCustomerReleasePortal/IgBFzZGgx05KSpixJsE7F4tiAfk3Q8lGYjNUxKZHSDBDFqc?e=UteNuR",
+    "url": "https://audittoolkitlabs.sharepoint.com/:f:/s/AuditToolkitCustomerReleasePortal/IgDit6pIFj65QJjzrA4r8hsTAUqvVN6WfHK5wenOrDS_UN8?e=wdLcbH",
     "size": "",
     "badge": "SharePoint"
   },
   {
     "name": "audit-standalone-agent-6.4.4-linux.tar.gz",
-    "url": "https://audittoolkitlabs.sharepoint.com/:f:/s/AuditToolkitCustomerReleasePortal/IgBFzZGgx05KSpixJsE7F4tiAfk3Q8lGYjNUxKZHSDBDFqc?e=UteNuR",
+    "url": "https://audittoolkitlabs.sharepoint.com/:f:/s/AuditToolkitCustomerReleasePortal/IgDit6pIFj65QJjzrA4r8hsTAUqvVN6WfHK5wenOrDS_UN8?e=wdLcbH",
     "size": "",
     "badge": "SharePoint"
   },
   {
     "name": "audit-standalone-agent-6.4.4-windows.zip",
-    "url": "https://audittoolkitlabs.sharepoint.com/:f:/s/AuditToolkitCustomerReleasePortal/IgBFzZGgx05KSpixJsE7F4tiAfk3Q8lGYjNUxKZHSDBDFqc?e=UteNuR",
+    "url": "https://audittoolkitlabs.sharepoint.com/:f:/s/AuditToolkitCustomerReleasePortal/IgDit6pIFj65QJjzrA4r8hsTAUqvVN6WfHK5wenOrDS_UN8?e=wdLcbH",
     "size": "",
     "badge": "SharePoint"
   },
   {
     "name": "audit-toolkit_6.4.4_all.deb",
-    "url": "https://audittoolkitlabs.sharepoint.com/:f:/s/AuditToolkitCustomerReleasePortal/IgBFzZGgx05KSpixJsE7F4tiAfk3Q8lGYjNUxKZHSDBDFqc?e=UteNuR",
+    "url": "https://audittoolkitlabs.sharepoint.com/:f:/s/AuditToolkitCustomerReleasePortal/IgDit6pIFj65QJjzrA4r8hsTAUqvVN6WfHK5wenOrDS_UN8?e=wdLcbH",
     "size": "",
     "badge": "SharePoint"
   },
   {
     "name": "audit-toolkit-6.4.4-1.noarch.rpm",
-    "url": "https://audittoolkitlabs.sharepoint.com/:f:/s/AuditToolkitCustomerReleasePortal/IgBFzZGgx05KSpixJsE7F4tiAfk3Q8lGYjNUxKZHSDBDFqc?e=UteNuR",
+    "url": "https://audittoolkitlabs.sharepoint.com/:f:/s/AuditToolkitCustomerReleasePortal/IgDit6pIFj65QJjzrA4r8hsTAUqvVN6WfHK5wenOrDS_UN8?e=wdLcbH",
     "size": "",
     "badge": "SharePoint"
   },
   {
     "name": "audit-toolkit-full-6.4.4-linux.tar.gz",
-    "url": "https://audittoolkitlabs.sharepoint.com/:f:/s/AuditToolkitCustomerReleasePortal/IgBFzZGgx05KSpixJsE7F4tiAfk3Q8lGYjNUxKZHSDBDFqc?e=UteNuR",
+    "url": "https://audittoolkitlabs.sharepoint.com/:f:/s/AuditToolkitCustomerReleasePortal/IgDit6pIFj65QJjzrA4r8hsTAUqvVN6WfHK5wenOrDS_UN8?e=wdLcbH",
     "size": "",
     "badge": "SharePoint"
   },
   {
     "name": "audit-toolkit-full-6.4.4-windows.zip",
-    "url": "https://audittoolkitlabs.sharepoint.com/:f:/s/AuditToolkitCustomerReleasePortal/IgBFzZGgx05KSpixJsE7F4tiAfk3Q8lGYjNUxKZHSDBDFqc?e=UteNuR",
+    "url": "https://audittoolkitlabs.sharepoint.com/:f:/s/AuditToolkitCustomerReleasePortal/IgDit6pIFj65QJjzrA4r8hsTAUqvVN6WfHK5wenOrDS_UN8?e=wdLcbH",
     "size": "",
     "badge": "SharePoint"
   },
   {
     "name": "fleet-agent-linux-6.4.4.tar.gz",
-    "url": "https://audittoolkitlabs.sharepoint.com/:f:/s/AuditToolkitCustomerReleasePortal/IgBFzZGgx05KSpixJsE7F4tiAfk3Q8lGYjNUxKZHSDBDFqc?e=UteNuR",
+    "url": "https://audittoolkitlabs.sharepoint.com/:f:/s/AuditToolkitCustomerReleasePortal/IgDit6pIFj65QJjzrA4r8hsTAUqvVN6WfHK5wenOrDS_UN8?e=wdLcbH",
     "size": "",
     "badge": "SharePoint"
   },
   {
     "name": "fleet-agent-windows-6.4.4.zip",
-    "url": "https://audittoolkitlabs.sharepoint.com/:f:/s/AuditToolkitCustomerReleasePortal/IgBFzZGgx05KSpixJsE7F4tiAfk3Q8lGYjNUxKZHSDBDFqc?e=UteNuR",
+    "url": "https://audittoolkitlabs.sharepoint.com/:f:/s/AuditToolkitCustomerReleasePortal/IgDit6pIFj65QJjzrA4r8hsTAUqvVN6WfHK5wenOrDS_UN8?e=wdLcbH",
     "size": "",
     "badge": "SharePoint"
   },
   {
     "name": "lightweight-agent-linux-6.4.4.tar.gz",
-    "url": "https://audittoolkitlabs.sharepoint.com/:f:/s/AuditToolkitCustomerReleasePortal/IgBFzZGgx05KSpixJsE7F4tiAfk3Q8lGYjNUxKZHSDBDFqc?e=UteNuR",
+    "url": "https://audittoolkitlabs.sharepoint.com/:f:/s/AuditToolkitCustomerReleasePortal/IgDit6pIFj65QJjzrA4r8hsTAUqvVN6WfHK5wenOrDS_UN8?e=wdLcbH",
     "size": "",
     "badge": "SharePoint"
   },
   {
     "name": "lightweight-agent-windows-6.4.4.zip",
-    "url": "https://audittoolkitlabs.sharepoint.com/:f:/s/AuditToolkitCustomerReleasePortal/IgBFzZGgx05KSpixJsE7F4tiAfk3Q8lGYjNUxKZHSDBDFqc?e=UteNuR",
+    "url": "https://audittoolkitlabs.sharepoint.com/:f:/s/AuditToolkitCustomerReleasePortal/IgDit6pIFj65QJjzrA4r8hsTAUqvVN6WfHK5wenOrDS_UN8?e=wdLcbH",
     "size": "",
     "badge": "SharePoint"
   },
   {
     "name": "manifest.json",
-    "url": "https://audittoolkitlabs.sharepoint.com/:f:/s/AuditToolkitCustomerReleasePortal/IgBFzZGgx05KSpixJsE7F4tiAfk3Q8lGYjNUxKZHSDBDFqc?e=UteNuR",
+    "url": "https://audittoolkitlabs.sharepoint.com/:f:/s/AuditToolkitCustomerReleasePortal/IgDit6pIFj65QJjzrA4r8hsTAUqvVN6WfHK5wenOrDS_UN8?e=wdLcbH",
     "size": "",
     "badge": "SharePoint"
   },
   {
     "name": "scripts-6.4.4.tar.gz",
-    "url": "https://audittoolkitlabs.sharepoint.com/:f:/s/AuditToolkitCustomerReleasePortal/IgBFzZGgx05KSpixJsE7F4tiAfk3Q8lGYjNUxKZHSDBDFqc?e=UteNuR",
+    "url": "https://audittoolkitlabs.sharepoint.com/:f:/s/AuditToolkitCustomerReleasePortal/IgDit6pIFj65QJjzrA4r8hsTAUqvVN6WfHK5wenOrDS_UN8?e=wdLcbH",
     "size": "",
     "badge": "SharePoint"
   },
   {
     "name": "unified-jre-agent-6.4.4.tar.gz",
-    "url": "https://audittoolkitlabs.sharepoint.com/:f:/s/AuditToolkitCustomerReleasePortal/IgBFzZGgx05KSpixJsE7F4tiAfk3Q8lGYjNUxKZHSDBDFqc?e=UteNuR",
+    "url": "https://audittoolkitlabs.sharepoint.com/:f:/s/AuditToolkitCustomerReleasePortal/IgDit6pIFj65QJjzrA4r8hsTAUqvVN6WfHK5wenOrDS_UN8?e=wdLcbH",
     "size": "",
     "badge": "SharePoint"
   },
   {
     "name": "web-6.4.4.tar.gz",
-    "url": "https://audittoolkitlabs.sharepoint.com/:f:/s/AuditToolkitCustomerReleasePortal/IgBFzZGgx05KSpixJsE7F4tiAfk3Q8lGYjNUxKZHSDBDFqc?e=UteNuR",
+    "url": "https://audittoolkitlabs.sharepoint.com/:f:/s/AuditToolkitCustomerReleasePortal/IgDit6pIFj65QJjzrA4r8hsTAUqvVN6WfHK5wenOrDS_UN8?e=wdLcbH",
     "size": "",
     "badge": "SharePoint"
   },
   {
     "name": "audit-toolkit-6.4.4.ova",
-    "url": "https://audittoolkitlabs.sharepoint.com/:f:/s/AuditToolkitCustomerReleasePortal/IgBFzZGgx05KSpixJsE7F4tiAfk3Q8lGYjNUxKZHSDBDFqc?e=UteNuR",
+    "url": "https://audittoolkitlabs.sharepoint.com/:f:/s/AuditToolkitCustomerReleasePortal/IgCITcPwtnQjR4bfd5gmhZxDAWuLoAnO_GxHudvuUUy3sFo?e=xHPuAh",
     "size": "",
     "badge": "VM Appliance"
   }

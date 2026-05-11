@@ -233,12 +233,26 @@ jobs:
                       version_site_dir = tool_site_dir / vd.name
                       version_site_dir.mkdir(parents=True, exist_ok=True)
 
-                      # Version page — asset list + inline changelog + inline checksums
+                      # Version page — asset list + inline docs + inline checksums
                       import json as _json
-                      EXCLUDE = {'external-links.json', 'changelog.md'}
+                      def find_doc_file(dir_path, names):
+                          wanted = {n.lower() for n in names}
+                          for f in dir_path.iterdir():
+                              if f.is_file() and f.name.lower() in wanted:
+                                  return f
+                          return None
+
+                      changelog_file = find_doc_file(vd, ['changelog.md'])
+                      readme_file = find_doc_file(vd, ['readme.md'])
+                      excluded_names = {'external-links.json'}
+                      if changelog_file:
+                          excluded_names.add(changelog_file.name)
+                      if readme_file:
+                          excluded_names.add(readme_file.name)
+
                       files = sorted(
                           [f for f in vd.iterdir() if f.is_file()
-                           and f.name not in EXCLUDE
+                           and f.name not in excluded_names
                            and not (f.name.startswith('checksums') and f.suffix == '.txt')],
                           key=lambda f: f.name.lower()
                       )
@@ -270,12 +284,20 @@ jobs:
 
                       body_parts = [asset_list(dl_assets)]
 
-                      changelog_file = vd / 'changelog.md'
-                      if changelog_file.exists():
+                      if changelog_file:
                           md_html = render_md(changelog_file.read_text(encoding='utf-8'))
                           body_parts.append(
                               f'<section class="info-section">'
                               f'<h2 class="section-heading">Release Notes</h2>'
+                              f'<div class="changelog-body">{md_html}</div>'
+                              f'</section>'
+                          )
+
+                      if readme_file:
+                          md_html = render_md(readme_file.read_text(encoding='utf-8'))
+                          body_parts.append(
+                              f'<section class="info-section">'
+                              f'<h2 class="section-heading">README</h2>'
                               f'<div class="changelog-body">{md_html}</div>'
                               f'</section>'
                           )

@@ -17,6 +17,11 @@ and a lightweight managed agent.
 
 - [Release assets folder](https://audittoolkitlabs.sharepoint.com/:f:/s/AuditToolkitCustomerReleasePortal/IgBbPUcfpK_qQJxU0n01GunBAQpAGOt2v7am73tUoYlxw5E?e=USfV4u)
 
+## Repository Release Access
+
+- [Release folder in this repository](https://github.com/AuditToolkitLabs/releases/tree/main/downloads/CMDB%20API%20Data%20Collection%20Tool/v1.0.1)
+- [Published downloads page](https://audittoolkitlabs.github.io/releases/v1.0.1/)
+
 ## Licence and Permitted Use
 
 This project is licensed under the **Business Source License 1.1 (BSL 1.1)**.

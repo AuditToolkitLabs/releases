@@ -20,7 +20,7 @@ and a lightweight managed agent.
 ## Repository Release Access
 
 - [Release folder in this repository](https://github.com/AuditToolkitLabs/releases/tree/main/downloads/CMDB%20API%20Data%20Collection%20Tool/v1.0.1)
-- [Published downloads page](https://audittoolkitlabs.github.io/releases/v1.0.1/)
+- [Published downloads page](https://audittoolkitlabs.github.io/releases/CMDB%20API%20Data%20Collection%20Tool/v1.0.1/)
 
 ## Licence and Permitted Use
 

@@ -6,6 +6,17 @@
 API-based CMDB data collection and reporting tool built with Flask, SQLAlchemy,
 and a lightweight managed agent.
 
+## Included Inline Documentation
+
+- [RELEASE-v1.0.1.md](RELEASE-v1.0.1.md): Full customer release notes for v1.0.1.
+- [CHANGELOG.md](CHANGELOG.md): Version-by-version change history.
+- [36-release-deployable-security-gate.md](36-release-deployable-security-gate.md): Release-scope security gate and OWASP release note.
+- [LICENSE-EULA.md](LICENSE-EULA.md): Licence terms and permitted-use obligations.
+
+## SharePoint Release Folder
+
+- [Release assets folder](https://audittoolkitlabs.sharepoint.com/:f:/s/AuditToolkitCustomerReleasePortal/IgBbPUcfpK_qQJxU0n01GunBAQpAGOt2v7am73tUoYlxw5E?e=USfV4u)
+
 ## Licence and Permitted Use
 
 This project is licensed under the **Business Source License 1.1 (BSL 1.1)**.
@@ -95,8 +106,6 @@ Quick in-place update examples for an existing core-server deployment (upgrade f
 
 Linux:
 
-```bash
-python3 apply_targeted_update.py \
 ```bash
 python3 apply_targeted_update.py \
   --bundle cmdb-tool-update-linux-1.0.1.tar.gz \

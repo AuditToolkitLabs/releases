@@ -2,7 +2,7 @@
 
 This repository is the standalone Linux toolkit for expanded host security audits.
 
-Canonical scope definition: see `docs/LINUX-SCOPE-CONTRACT.md`.
+Canonical scope definition: see [docs/LINUX-SCOPE-CONTRACT.md](docs/LINUX-SCOPE-CONTRACT.md).
 
 ## What this repo is
 
@@ -21,11 +21,11 @@ Canonical scope definition: see `docs/LINUX-SCOPE-CONTRACT.md`.
 
 ## Primary runtime paths
 
-- Core audits: `audits/linux`
-- Core libs: `lib`
-- Orchestrator: `orchestrator/orchestrator.sh`
-- Standalone lightweight agent: `agents/html-linux`
-- Linux add-on packaging: `addons/linux-audit-agent`
+- Core audits: audits/linux
+- Core libs: lib
+- Orchestrator: orchestrator/orchestrator.sh
+- Standalone lightweight agent: agents/html-linux
+- Linux add-on packaging: addons/linux-audit-agent
 
 ## Quick start (WSL/Linux)
 
@@ -64,4 +64,5 @@ bash addons/linux-audit-agent/scripts/package.sh
 
 ## Note on asset-discovery
 
-The full asset-discovery suite under `tools/asset-discovery` is not the primary product surface for this Linux-Security-Lite repo. Use the Linux audit toolkit and standalone agent paths above.
+The full asset-discovery suite under tools/asset-discovery is not the primary product surface for this Linux-Security-Lite repo.
+Use the Linux audit toolkit and standalone agent paths above.

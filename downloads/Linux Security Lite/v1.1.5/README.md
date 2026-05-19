@@ -64,5 +64,4 @@ bash addons/linux-audit-agent/scripts/package.sh
 
 ## Note on asset-discovery
 
-The full asset-discovery suite under tools/asset-discovery is not the primary product surface for this Linux-Security-Lite repo.
-Use the Linux audit toolkit and standalone agent paths above.
+The full asset-discovery suite under `tools/asset-discovery` is not the primary product surface for this Linux-Security-Lite repo. Use the Linux audit toolkit and standalone agent paths above.

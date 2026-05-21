@@ -1,0 +1,98 @@
+[
+  {
+    "name": "cmdb-platform_1.1.0_amd64.deb",
+    "url": "https://audittoolkitlabs.sharepoint.com/:f:/s/AuditToolkitCustomerReleasePortal/IgChbdG82redRqraWru4hxfpAXGpfH1OqzYaTAgp4kMHOng?e=Ytelpz",
+    "size": "",
+    "badge": "SharePoint"
+  },
+  {
+    "name": "cmdb-platform-1.1.0-1.x86_64.rpm",
+    "url": "https://audittoolkitlabs.sharepoint.com/:f:/s/AuditToolkitCustomerReleasePortal/IgChbdG82redRqraWru4hxfpAXGpfH1OqzYaTAgp4kMHOng?e=Ytelpz",
+    "size": "",
+    "badge": "SharePoint"
+  },
+  {
+    "name": "cmdb-platform_1.1.0_win_x64.msi",
+    "url": "https://audittoolkitlabs.sharepoint.com/:f:/s/AuditToolkitCustomerReleasePortal/IgChbdG82redRqraWru4hxfpAXGpfH1OqzYaTAgp4kMHOng?e=Ytelpz",
+    "size": "",
+    "badge": "SharePoint"
+  },
+  {
+    "name": "cmdb-platform_1.1.0_win_x64_online.msi",
+    "url": "https://audittoolkitlabs.sharepoint.com/:f:/s/AuditToolkitCustomerReleasePortal/IgChbdG82redRqraWru4hxfpAXGpfH1OqzYaTAgp4kMHOng?e=Ytelpz",
+    "size": "",
+    "badge": "SharePoint"
+  },
+  {
+    "name": "cmdb-platform-patch-kit-linux-1.1.0.tar.gz",
+    "url": "https://audittoolkitlabs.sharepoint.com/:f:/s/AuditToolkitCustomerReleasePortal/IgChbdG82redRqraWru4hxfpAXGpfH1OqzYaTAgp4kMHOng?e=Ytelpz",
+    "size": "",
+    "badge": "SharePoint"
+  },
+  {
+    "name": "cmdb-platform-patch-kit-windows-1.1.0.zip",
+    "url": "https://audittoolkitlabs.sharepoint.com/:f:/s/AuditToolkitCustomerReleasePortal/IgChbdG82redRqraWru4hxfpAXGpfH1OqzYaTAgp4kMHOng?e=Ytelpz",
+    "size": "",
+    "badge": "SharePoint"
+  },
+  {
+    "name": "checksums.txt",
+    "url": "https://audittoolkitlabs.sharepoint.com/:f:/s/AuditToolkitCustomerReleasePortal/IgChbdG82redRqraWru4hxfpAXGpfH1OqzYaTAgp4kMHOng?e=Ytelpz",
+    "size": "",
+    "badge": "SharePoint"
+  },
+  {
+    "name": "checksums.txt.sig",
+    "url": "https://audittoolkitlabs.sharepoint.com/:f:/s/AuditToolkitCustomerReleasePortal/IgChbdG82redRqraWru4hxfpAXGpfH1OqzYaTAgp4kMHOng?e=Ytelpz",
+    "size": "",
+    "badge": "SharePoint"
+  },
+  {
+    "name": "patch-manifest.json",
+    "url": "https://audittoolkitlabs.sharepoint.com/:f:/s/AuditToolkitCustomerReleasePortal/IgChbdG82redRqraWru4hxfpAXGpfH1OqzYaTAgp4kMHOng?e=Ytelpz",
+    "size": "",
+    "badge": "SharePoint"
+  },
+  {
+    "name": "patch-manifest.json.sig",
+    "url": "https://audittoolkitlabs.sharepoint.com/:f:/s/AuditToolkitCustomerReleasePortal/IgChbdG82redRqraWru4hxfpAXGpfH1OqzYaTAgp4kMHOng?e=Ytelpz",
+    "size": "",
+    "badge": "SharePoint"
+  },
+  {
+    "name": "signing-preflight.txt",
+    "url": "https://audittoolkitlabs.sharepoint.com/:f:/s/AuditToolkitCustomerReleasePortal/IgChbdG82redRqraWru4hxfpAXGpfH1OqzYaTAgp4kMHOng?e=Ytelpz",
+    "size": "",
+    "badge": "SharePoint"
+  },
+  {
+    "name": "signing-status.txt",
+    "url": "https://audittoolkitlabs.sharepoint.com/:f:/s/AuditToolkitCustomerReleasePortal/IgChbdG82redRqraWru4hxfpAXGpfH1OqzYaTAgp4kMHOng?e=Ytelpz",
+    "size": "",
+    "badge": "SharePoint"
+  },
+  {
+    "name": "windows-installer-selection.txt",
+    "url": "https://audittoolkitlabs.sharepoint.com/:f:/s/AuditToolkitCustomerReleasePortal/IgChbdG82redRqraWru4hxfpAXGpfH1OqzYaTAgp4kMHOng?e=Ytelpz",
+    "size": "",
+    "badge": "SharePoint"
+  },
+  {
+    "name": "CHANGELOG.md",
+    "url": "https://audittoolkitlabs.sharepoint.com/:f:/s/AuditToolkitCustomerReleasePortal/IgChbdG82redRqraWru4hxfpAXGpfH1OqzYaTAgp4kMHOng?e=Ytelpz",
+    "size": "",
+    "badge": "SharePoint"
+  },
+  {
+    "name": "EULA.md",
+    "url": "https://audittoolkitlabs.sharepoint.com/:f:/s/AuditToolkitCustomerReleasePortal/IgChbdG82redRqraWru4hxfpAXGpfH1OqzYaTAgp4kMHOng?e=Ytelpz",
+    "size": "",
+    "badge": "SharePoint"
+  },
+  {
+    "name": "README.md",
+    "url": "https://audittoolkitlabs.sharepoint.com/:f:/s/AuditToolkitCustomerReleasePortal/IgChbdG82redRqraWru4hxfpAXGpfH1OqzYaTAgp4kMHOng?e=Ytelpz",
+    "size": "",
+    "badge": "SharePoint"
+  }
+]

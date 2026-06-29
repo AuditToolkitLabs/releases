@@ -1,0 +1,86 @@
+[
+  {
+    "name": "audit-fleet-agent-1.0.3-windows-x64.msi",
+    "url": "https://github.com/AuditToolkitLabs/releases/releases/download/audit-toolkit-v1.0.3/audit-fleet-agent-1.0.3-windows-x64.msi",
+    "size": "15.8 MB",
+    "badge": "GitHub"
+  },
+  {
+    "name": "audit-standalone-agent-1.0.3-windows-x64.msi",
+    "url": "https://github.com/AuditToolkitLabs/releases/releases/download/audit-toolkit-v1.0.3/audit-standalone-agent-1.0.3-windows-x64.msi",
+    "size": "15.6 MB",
+    "badge": "GitHub"
+  },
+  {
+    "name": "audit-tool-1.0.3-1.x86_64.rpm",
+    "url": "https://github.com/AuditToolkitLabs/releases/releases/download/audit-toolkit-v1.0.3/audit-tool-1.0.3-1.x86_64.rpm",
+    "size": "10.5 MB",
+    "badge": "GitHub"
+  },
+  {
+    "name": "audit-tool_1.0.3_amd64.deb",
+    "url": "https://github.com/AuditToolkitLabs/releases/releases/download/audit-toolkit-v1.0.3/audit-tool_1.0.3_amd64.deb",
+    "size": "50.4 MB",
+    "badge": "GitHub"
+  },
+  {
+    "name": "audit-toolkit-1.0.3-application.tar.gz",
+    "url": "https://github.com/AuditToolkitLabs/releases/releases/download/audit-toolkit-v1.0.3/audit-toolkit-1.0.3-application.tar.gz",
+    "size": "2.3 MB",
+    "badge": "GitHub"
+  },
+  {
+    "name": "audit-toolkit-1.0.3-audits.tar.gz",
+    "url": "https://github.com/AuditToolkitLabs/releases/releases/download/audit-toolkit-v1.0.3/audit-toolkit-1.0.3-audits.tar.gz",
+    "size": "1.0 MB",
+    "badge": "GitHub"
+  },
+  {
+    "name": "audittoolkit-hypervisor-agent-1.0.3-windows-x64.msi",
+    "url": "https://github.com/AuditToolkitLabs/releases/releases/download/audit-toolkit-v1.0.3/audittoolkit-hypervisor-agent-1.0.3-windows-x64.msi",
+    "size": "14.8 MB",
+    "badge": "GitHub"
+  },
+  {
+    "name": "fleet-agent-1.0.3-1.x86_64.rpm",
+    "url": "https://github.com/AuditToolkitLabs/releases/releases/download/audit-toolkit-v1.0.3/fleet-agent-1.0.3-1.x86_64.rpm",
+    "size": "1.2 MB",
+    "badge": "GitHub"
+  },
+  {
+    "name": "fleet-agent_1.0.3_amd64.deb",
+    "url": "https://github.com/AuditToolkitLabs/releases/releases/download/audit-toolkit-v1.0.3/fleet-agent_1.0.3_amd64.deb",
+    "size": "765.0 KB",
+    "badge": "GitHub"
+  },
+  {
+    "name": "hypervisor-agent-1.0.3-1.x86_64.rpm",
+    "url": "https://github.com/AuditToolkitLabs/releases/releases/download/audit-toolkit-v1.0.3/hypervisor-agent-1.0.3-1.x86_64.rpm",
+    "size": "35.9 KB",
+    "badge": "GitHub"
+  },
+  {
+    "name": "hypervisor-agent_1.0.3_amd64.deb",
+    "url": "https://github.com/AuditToolkitLabs/releases/releases/download/audit-toolkit-v1.0.3/hypervisor-agent_1.0.3_amd64.deb",
+    "size": "19.6 KB",
+    "badge": "GitHub"
+  },
+  {
+    "name": "standalone-agent-1.0.3-1.x86_64.rpm",
+    "url": "https://github.com/AuditToolkitLabs/releases/releases/download/audit-toolkit-v1.0.3/standalone-agent-1.0.3-1.x86_64.rpm",
+    "size": "1.3 MB",
+    "badge": "GitHub"
+  },
+  {
+    "name": "standalone-agent_1.0.3_amd64.deb",
+    "url": "https://github.com/AuditToolkitLabs/releases/releases/download/audit-toolkit-v1.0.3/standalone-agent_1.0.3_amd64.deb",
+    "size": "6.9 MB",
+    "badge": "GitHub"
+  },
+  {
+    "name": "SHA256SUMS-1.0.3.txt",
+    "url": "https://github.com/AuditToolkitLabs/releases/releases/download/audit-toolkit-v1.0.3/SHA256SUMS-1.0.3.txt",
+    "size": "1.3 KB",
+    "badge": "GitHub"
+  }
+]

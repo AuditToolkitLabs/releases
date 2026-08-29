@@ -1,80 +1,86 @@
 # releases
 
-Public release artefacts for AuditToolkit Labs products. Source code is maintained in private repositories.
+Public distribution hub for AuditToolkit Labs product release assets. Source code is
+maintained in private repositories and is never published here.
 
 ## Purpose
 
-This repository is the public distribution point for product release assets.
+This repository exists to host **GitHub Release assets**. It is a distribution endpoint,
+not a working repository:
 
-- Source code remains in private repositories.
-- Built binaries, installers, and checksums are published through a static downloads catalog.
-- No tags are created in this repository.
+- Product binaries, installers, checksums, signatures, SBOMs and release notes are
+  attached to GitHub Releases here.
+- The git tree itself holds only this README and the validation workflow. No product
+  source, no binaries in-tree.
+- The public website links directly to
+  `https://github.com/AuditToolkitLabs/releases/releases/download/<tag>/<asset>`.
 
-## Public Access Model
+## How releases get here
 
-- The repository is public so anyone can download published release assets.
-- Private source repositories are not exposed through this repository.
-- Do not upload source bundles.
+Publishing is **not** performed by hand in this repository, and not by any workflow in
+it. It is driven from the private site repository (`audit-toolkit-preview`):
 
-## Binary Distribution Method
+```text
+Gitea (private, local)  →  ci/sync-releases.py  →  GitHub Releases on this repo  →  website
+```
 
-Public downloads are published from a release-tag URL such as `https://audittoolkitlabs.github.io/releases/v6.4.4/` and deployed as a GitHub Pages site by the workflow in [`.github/workflows/publish-downloads-site.yml`](.github/workflows/publish-downloads-site.yml).
+`ci/sync-releases.py` reads `releases/releases-sources.json` (which names this repo as
+`github_repo`), then for each product runs `gh release create` with the release notes and
+`gh release upload` for the assets.
 
-The home page lists release tags, and each release-tag page renders a GitHub-release-style asset list containing all artifacts for that tag.
+The sync is **manual** — it runs when invoked, not on a schedule.
 
-The mirror workflow in [`.github/workflows/mirror-audit-tool-release.yml`](.github/workflows/mirror-audit-tool-release.yml) syncs allowlisted assets from the source release repository and rejects anything that is not on the approved list.
+To publish or re-publish, work in `audit-toolkit-preview`, not here.
 
-## Source Protection Controls
+## Tag naming
 
-The workflow in [`.github/workflows/validate-release-assets.yml`](.github/workflows/validate-release-assets.yml) blocks source-like uploaded Release assets.
+Releases use per-product namespaced tags so that several products can coexist in one
+repository:
 
-Even with that protection, GitHub generates source archives for tags.
+```text
+audit-toolkit-v1.1.4
+grithian-v2.3.2
+kithian-v1.1.6
+borian-v1.1.4
+```
 
-To prevent source archive exposure, this repository follows a strict no-tag policy.
+All tags currently point at the same commit on `main`; the tag is an addressing label for
+the release and its assets, not a snapshot of code.
 
-## Tag Ruleset Checklist (GitHub UI)
+> Note: an earlier revision of this README described a "strict no-tag policy" and a
+> ruleset blocking tag creation. That policy was retired — namespaced tags are now how
+> assets are addressed, and the website depends on them. Do not re-enable a tag-creation
+> restriction without first migrating the site's download URLs.
 
-Create a repository ruleset in GitHub to block tag creation.
+## Source protection
 
-1. Open repository settings, then `Rules`, then `Rulesets`.
-2. Create a new ruleset and target `Tags`.
-3. Set tag name pattern to `*`.
-4. Enable rule: `Restrict creations`.
-5. Enable rule: `Restrict updates`.
-6. Enable rule: `Restrict deletions`.
-7. Keep bypass list empty, or limit bypass to one emergency admin role only.
-8. Turn on `Do not allow bypassing the above settings` if your policy allows it.
-9. Save and enable the ruleset.
+[`.github/workflows/validate-release-assets.yml`](.github/workflows/validate-release-assets.yml)
+runs on `release: published` and is the gate against accidental source disclosure. It:
 
-After enabling, verify by attempting to create a test tag from a non-admin account.
+1. Polls the API until every asset on the release has settled to `state: uploaded`
+   (assets are uploaded *after* the release is created, and large ones take minutes, so
+   the webhook payload cannot be trusted for this).
+2. Rejects assets whose names look source-like, and unpacks any archive to reject
+   source-like paths inside it.
 
-## Publishing Steps
+GitHub also auto-generates `Source code (zip)` / `(tar.gz)` for every tag. Because tags
+here point at this repository's own tree — which contains no product source — those
+archives are harmless. Keep it that way: never commit product source, build scripts or
+customer-specific material to this repository.
 
-1. Copy binaries, checksums, and signatures into the correct `downloads/<tool>/<release-tag>/` folder in the repository.
-2. Commit and push to `main`.
-3. Wait for the Pages deployment workflow to finish.
-4. Validate downloads from the published Pages URL.
+## File requirements for uploaded assets
 
-For example:
+- Allowed: binaries, installers, checksums, signatures, SBOMs, provenance, release notes.
+- Not allowed: source code, build scripts, project files, source archives.
 
-- `downloads/audit-toolkit/v6.4.4/`
-- `downloads/audit-fleet-agent/v6.4.4/`
-- `downloads/release/v6.4.4/`
+## Retired mechanisms
 
-The landing page is card-based, so each folder is easier to scan visually instead of reading a flat file list.
+The following were removed and should not be reintroduced:
 
-## File Requirements
-
-- Include only binaries, installers, checksums, signatures, and provenance files.
-- Exclude source code, build scripts, project files, and source archives.
-
-## Tag and Source Archive Caveat
-
-GitHub automatically exposes source archives (`Source code (zip)` and `Source code (tar.gz)`) for each tag in this repository.
-
-If this repository is public and tags exist, those generated source archives are available even when uploaded assets are binaries only.
-
-To prevent that, use one of these approaches:
-
-- keep this repository private
-- avoid creating public tags here and publish binaries from a distribution-only repository
+- **SharePoint distribution.** Releases were once catalogued in a `downloads/` tree whose
+  `external-links.json` files pointed at an `audittoolkitlabs.sharepoint.com` customer
+  portal. SharePoint is no longer used for releases; those links are stale and invalid.
+- **`publish-downloads-site.yml`** — built a GitHub Pages index from that `downloads/`
+  tree. The Pages site was never successfully built and nothing linked to it.
+- **`mirror-audit-tool-release.yml`** — a weekly cron that mirrored assets from the old
+  single-repo `AuditToolkitLabs/Audit-Tool-`. Superseded by `ci/sync-releases.py`.

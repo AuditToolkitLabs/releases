@@ -12,22 +12,43 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Ensure release has at least one asset
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TAG: ${{ github.event.release.tag_name }}
+          REPO: ${{ github.repository }}
         run: |
           set -euo pipefail
-          count="${{ toJson(github.event.release.assets) }}"
-          if [ "$count" = "[]" ]; then
-            echo "Release '${{ github.event.release.tag_name }}' has no assets."
-            echo "Upload at least one binary/checksum asset before publishing."
-            exit 1
-          fi
-          echo "Release '${{ github.event.release.tag_name }}' includes assets."
+          # The `release: published` payload is captured before the publisher has
+          # finished uploading assets (sync-releases.py does `gh release create`
+          # then `gh release upload`), so it is always empty here. Poll the API
+          # for the settled asset list instead.
+          # Large assets take minutes to finish uploading, so wait for a
+          # non-empty list in which every asset has settled to "uploaded".
+          for attempt in $(seq 1 30); do
+            settled="$(gh release view "$TAG" --repo "$REPO" --json assets --jq '[.assets[] | select(.state == "uploaded")] | length')"
+            total="$(gh release view "$TAG" --repo "$REPO" --json assets --jq '.assets | length')"
+            if [ "$total" -gt 0 ] && [ "$settled" -eq "$total" ]; then
+              echo "Release '$TAG' includes $total uploaded asset(s)."
+              exit 0
+            fi
+            echo "Attempt $attempt: $settled/$total assets uploaded; waiting…"
+            sleep 30
+          done
+          echo "Release '$TAG' has no settled assets after waiting 15 minutes."
+          echo "Upload at least one binary/checksum asset before publishing."
+          exit 1
 
       - name: Block source-like release assets
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          RELEASE_JSON: ${{ toJson(github.event.release) }}
+          TAG: ${{ github.event.release.tag_name }}
+          REPO: ${{ github.repository }}
         run: |
           set -euo pipefail
+          # `gh` exposes the API endpoint as `apiUrl` and the browser link as
+          # `url`; the inspection script below downloads via the API, so remap.
+          RELEASE_JSON="$(gh release view "$TAG" --repo "$REPO" --json assets --jq '{assets: [.assets[] | . + {url: .apiUrl}]}')"
+          export RELEASE_JSON
 
           python3 - << 'PY'
           import json

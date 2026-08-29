@@ -1,0 +1,76 @@
+name: No Source In Tree
+
+# This repository is the PUBLIC distribution endpoint. Its tree must never
+# contain product source, because anything committed here is world-readable
+# immediately and is additionally packaged into the auto-generated
+# "Source code (zip)" archive of every release tag.
+#
+# GitHub does not allow push rulesets on public repositories
+# ("Source public repos cannot have push rules"), so this guard runs after the
+# push rather than blocking it. Treat a failure here as an incident: the file
+# is already public and rewriting history is not sufficient on its own.
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  guard:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Reject source-like files in the repository tree
+        run: |
+          set -euo pipefail
+
+          python3 - << 'PY'
+          import pathlib
+          import subprocess
+          import sys
+
+          SOURCE_EXTS = {
+              ".py", ".pyc", ".pyw",
+              ".ps1", ".psm1", ".psd1", ".sh", ".bash", ".zsh", ".bat", ".cmd",
+              ".js", ".mjs", ".cjs", ".ts", ".tsx", ".jsx",
+              ".c", ".h", ".cpp", ".hpp", ".cc", ".cxx", ".hh",
+              ".cs", ".vb", ".fs", ".go", ".rs", ".java", ".kt", ".kts",
+              ".rb", ".php", ".swift", ".m", ".mm", ".pl", ".lua", ".sql",
+              ".dart", ".scala", ".groovy", ".r", ".jl",
+          }
+
+          # The only executable content that legitimately lives here is this
+          # repository's own CI, which is YAML under .github/.
+          ALLOWED_PREFIXES = (".github/",)
+
+          tracked = subprocess.run(
+              ["git", "ls-files", "-z"],
+              capture_output=True, check=True, text=True,
+          ).stdout.split("\0")
+
+          offenders = []
+          for path in filter(None, tracked):
+              if path.startswith(ALLOWED_PREFIXES):
+                  continue
+              if pathlib.Path(path.lower()).suffix in SOURCE_EXTS:
+                  offenders.append(path)
+
+          if offenders:
+              print("Source-like files are present in this public repository:")
+              for path in sorted(offenders):
+                  print(f"- {path}")
+              print()
+              print("This repository must contain only distribution metadata.")
+              print("Product source belongs in the private repositories; binaries")
+              print("belong in GitHub Release assets, not in the git tree.")
+              sys.exit(1)
+
+          print(f"Checked {len(list(filter(None, tracked)))} tracked files; no source-like content.")
+          PY
